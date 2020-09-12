@@ -1,4 +1,4 @@
-import { IonImg } from "@ionic/react";
+import { IonImg, IonButton } from "@ionic/react";
 import React, { useEffect, useRef } from "react";
 import "./CameraContainer.css";
 
@@ -24,26 +24,29 @@ const CameraContainer: React.FC<ContainerProps> = () => {
         canvasRef.current.width,
         canvasRef.current.height
       );
-
-      let frame = canvasRef.current.toDataURL("image/png");
-      fetch("http://localhost:5000/process", {
-        method: "POST",
-        body: frame,
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          imgRef.current.src = data["image"];
-        });
     }, 120);
   }, []);
+
+  const processImage = () => {
+    let frame = canvasRef.current.toDataURL("image/png");
+    fetch("http://localhost:5000/process", {
+      method: "POST",
+      body: frame,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        imgRef.current.src = data["image"];
+      });
+  };
 
   return (
     <div className="container">
       <video hidden ref={camRef}></video>
       <canvas ref={canvasRef}></canvas>
       <IonImg ref={imgRef} />
+      <IonButton onClick={processImage}>Get Output</IonButton>
     </div>
   );
 };

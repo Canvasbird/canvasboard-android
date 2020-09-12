@@ -189,6 +189,32 @@ def register():
 	return jsonify({"user":str(user.inserted_id)})
 
 
+def split_up_resize(arr, res):
+    """
+    function which resizes large array (direct resize yields error (addedtypo))
+    """
+
+    # compute destination resolution for subarrays
+    res_1 = (res[0], res[1]/2)
+    res_2 = (res[0], res[1] - res[1]/2)
+
+    # get sub-arrays
+    arr_1 = arr[0 : len(arr)/2]
+    arr_2 = arr[len(arr)/2 :]
+
+    # resize sub arrays
+    arr_1 = cv2.resize(arr_1, res_1, interpolation = cv2.INTER_LINEAR)
+    arr_2 = cv2.resize(arr_2, res_2, interpolation = cv2.INTER_LINEAR)
+
+    # init resized array
+    arr = np.zeros((res[1], res[0]))
+
+    # merge resized sub arrays
+    arr[0 : len(arr)/2] = arr_1
+    arr[len(arr)/2 :] = arr_2
+
+    return arr
+
 @app.route('/process', methods=['POST'])
 def image_process():
 	model_path = 'faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb'
@@ -197,11 +223,18 @@ def image_process():
 	type_, data = data.split(b',')
 	img = data
 	img = base64.b64decode(img)
-	img = BytesIO(img)
-	img = Image.open(img)#.convert('LA')
-	img = np.array(img)
+	img = np.fromstring(img, dtype=np.uint8)
+	img = cv2.imdecode(img, 1)
+	threshold = 0.7
+	# img = BytesIO(img)
+	# img = np.array(Image.open(img))#.convert('LA')
+	
+	# img = np.expand_dims(img, axis=0)
+	# img = np.array(img)
 	#Resize the image
+
 	img = cv2.resize(img, (640,480))
+	# img = split_up_resize(img, (640, 480))
 
 	#Send the image to the detection module
 	boxes, scores, classes, num = odapi.processFrame(img)
@@ -241,14 +274,25 @@ def image_process():
 	if (omit==0):
 	#Send the current frame along with corners of the white board for cropping
 		image2 = distortionCorrection(img,corners)
-		image2 = Image.fromarray(image2)
-		img = BytesIO()
-		image2.save(img, format="PNG")
-		img_str = base64.b64encode(image2.getvalue())
+		# image2 = Image.fromarray(image2)
+		# img = BytesIO()
+		# image2.save(img, format="PNG")
+		retval, buffer = cv2.imencode('.png', image2)
+		img_str = base64.b64encode(buffer)
 		gc.collect()
 		return jsonify({
-			"image":type_.decode()+','+image2.decode()
+			"image":type_.decode()+','+img_str.decode()
 		})
+	else:
+		# img_ = BytesIO()
+		# cv2.imwrite(img_, img)
+		retval, buffer = cv2.imencode('.png', img)
+		img_str = base64.b64encode(buffer)
+		gc.collect()
+		return jsonify({
+			"image":type_.decode()+','+img_str.decode()
+		})
+	
 
 
 if __name__ == '__main__':
