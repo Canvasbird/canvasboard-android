@@ -173,7 +173,7 @@ if __name__== '__main__' :
               box2=[box[1],box[0],box[3],box[2]]
 
               #Find the degree of overlap between the white board and the person
-              overlap=bb_intersection_over_union(box1,box2)
+              overlap=degree_of_overlap(box1,box2)
 
               #Round it off to relax the condition.
               overlap=round(overlap,1)
