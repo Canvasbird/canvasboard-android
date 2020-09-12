@@ -1,0 +1,32 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  padding-bottom: 30px;
+}
+
+.register > img {
+  width: 100px;
+  height: 100px;
+}
+
+.register__form {
+  padding-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.register__formInput {
+  padding: 10px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid lightgray;
+  height: 40px;
+  margin-bottom: 15px;
+}
+
+.welcome__text {
+  padding: 10px;
+}
