@@ -4,7 +4,7 @@
 <br>
 <strong>Canvasbird Organization</strong>
 <br>
-<strong>Project: Canvasboard</strong>
+<strong>Project: Canvasboard Android</strong>
 <br>
 <br>
 <a href="#">
@@ -15,9 +15,8 @@ The whole purpose of education is to turn mirrors into windows.
 - Sydney J. Harris
 </code>
 </p>
----
 
 ## Canvasboard Android
 
-Canvasboard Android is an android application which makes use of AI for real time communication to organize the live class on the Canvas Web Board and schedule the timing of classes for the students.
+Canvasboard Android is a hybrid android application which makes use of AI for real time communication to organize the live class on the Canvas Web Board and schedule the timing of classes for the students.
 
