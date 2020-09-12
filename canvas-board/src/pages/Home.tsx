@@ -6,15 +6,16 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React from "react";
-import CameraContainer from "../components/CameraContainer";
+// import CameraContainer from "../components/CameraContainer";
+// import { Link } from "react-router-dom";
 import "./Home.css";
 
-const Home: React.FC = () => {
+const Home = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Blank</IonTitle>
+          <IonTitle>Canvas Board</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -23,7 +24,6 @@ const Home: React.FC = () => {
             <IonTitle size="large">Blank</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <CameraContainer />
       </IonContent>
     </IonPage>
   );

@@ -1,5 +1,10 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import {
+  Redirect,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 import { IonApp, IonRouterOutlet } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
@@ -26,16 +31,30 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/register" component={Register} exact={true} />
-        <Route path="/login" component={Login} exact={true} />
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+  <Router>
+    <IonApp>
+      <Router>
+        <Switch>
+          <Route path="/register" component={Register} exact={true} />
+          <Route path="/login" component={Login} exact={true} />
+          <Route
+            exact
+            path="/"
+            render={() => {
+              if (
+                localStorage.getItem("access_token") !== "undefined" &&
+                localStorage.getItem("access_token")
+              ) {
+                return <Home />;
+              } else {
+                return <Redirect to="/login" />;
+              }
+            }}
+          />
+        </Switch>
+      </Router>
+    </IonApp>
+  </Router>
 );
 
 export default App;
