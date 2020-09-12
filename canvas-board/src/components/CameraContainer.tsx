@@ -1,22 +1,49 @@
-import React from "react";
+import { IonImg } from "@ionic/react";
+import React, { useEffect, useRef } from "react";
 import "./CameraContainer.css";
 
 interface ContainerProps {}
 
 const CameraContainer: React.FC<ContainerProps> = () => {
+  const camRef: any = useRef();
+  const canvasRef: any = useRef();
+  const imgRef: any = useRef();
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+      camRef.current.srcObject = stream;
+      camRef.current?.play();
+    });
+
+    setInterval(() => {
+      const ctx = canvasRef.current.getContext("2d");
+      ctx.drawImage(
+        camRef.current,
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
+      );
+
+      let frame = canvasRef.current.toDataURL("image/png");
+      fetch("http://localhost:5000/process", {
+        method: "POST",
+        body: frame,
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          imgRef.current.src = data["image"];
+        });
+    }, 120);
+  }, []);
+
   return (
     <div className="container">
-      <strong>Ready to create an app?</strong>
-      <p>
-        Start with Ionic{" "}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://ionicframework.com/docs/components"
-        >
-          UI Components
-        </a>
-      </p>
+      <video hidden ref={camRef}></video>
+      <canvas ref={canvasRef}></canvas>
+      <IonImg ref={imgRef} />
     </div>
   );
 };

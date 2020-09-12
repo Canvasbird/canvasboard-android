@@ -5,7 +5,12 @@ from flask_jwt_extended import (
 	get_jwt_identity
 )
 import pymongo
-connectionUrl = "mongodb+srv://rohit18515:Rohit123@cluster0.qj7jq.mongodb.net/canvasboard?retryWrites=true&w=majority";
+import base64
+from io import BytesIO
+from PIL import Image
+import gc
+
+connectionUrl = "mongodb+srv://rohit:Rohit123@cluster0.qj7jq.mongodb.net/canvasboard?retryWrites=true&w=majority"
 myclient = pymongo.MongoClient(connectionUrl)
 
 db = myclient["canvasboard"]
@@ -71,6 +76,29 @@ def register():
 	
 	return jsonify({"user":str(user.inserted_id)})
 
+
+@app.route('/process', methods=['POST'])
+def image_process():
+	data = request.data
+	type_, data = data.split(b',')
+	image = data
+	image = base64.b64decode(image)
+	image = BytesIO(image)
+	image = Image.open(image).convert('LA') # this is a colored image if needed convert it into gray scale
+	
+	## start your ML code here using above image ##
+	
+	image_output = image # <---------- output image goes here
+	## end of ML code ##
+	
+	img = BytesIO()
+	image_output.save(img, format="PNG")
+	img_str = base64.b64encode(img.getvalue())
+	
+	gc.collect()
+	return jsonify({
+		"image":type_.decode()+','+img_str.decode()
+	})
 
 if __name__ == '__main__':
 	app.run(debug=True)

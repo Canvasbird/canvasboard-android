@@ -22,3 +22,5 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+faster_rcnn_inception_v2_coco_2018_01_28/
