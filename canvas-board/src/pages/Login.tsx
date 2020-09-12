@@ -3,6 +3,7 @@ import "./Login.css";
 import logo from "./logo.png";
 import { IonButton, IonText } from "@ionic/react";
 import { Link, useHistory } from "react-router-dom";
+import { api } from "../config";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ const Login: React.FC = () => {
       password: password,
     };
 
-    fetch("http://localhost:5000/login", {
+    fetch(`${api}/login`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -32,7 +33,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login">
-      <img src={logo} />
+      <img alt="" src={logo} />
       <IonText className="welcome__text">Welcome back to Web Board</IonText>
       <form className="login__form">
         <IonText>Email</IonText>

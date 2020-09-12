@@ -23,6 +23,9 @@ import os
 connectionUrl = "mongodb+srv://rohit:Rohit123@cluster0.qj7jq.mongodb.net/canvasboard?retryWrites=true&w=majority"
 myclient = pymongo.MongoClient(connectionUrl)
 
+db = myclient["canvasboard"]
+collection = db["users"]
+
 class DetectorAPI:
     def __init__(self, path_to_ckpt):
         #Initialize the file path of the model checkpoint
@@ -136,6 +139,45 @@ app.config['SECRET_KEY'] = 'rohit'
 app.config['JWT_SECRET_KEY'] = 'qmxgrstf234rfdxfgtrs!@#'
 jwt = JWTManager(app)
 #socketio = SocketIO(app,cors_allowed_origins="*")
+
+@app.route('/classes', methods=['POST'])
+@jwt_required
+def get_classlist():
+	current_user = get_jwt_identity()
+	id = current_user["_id"]
+	classesCollection = db[f"{id}"]
+	classes = classesCollection.find({})
+
+	response = []
+	for class_ in classes:
+		class_["_id"] = str(class_["_id"])
+		response.append(class_)
+	return jsonify(response) 
+
+@app.route('/schedule', methods=['POST'])
+@jwt_required
+def schedule_class():
+	data = request.get_json()
+	print(data)
+	current_user = get_jwt_identity()
+	id = current_user["_id"]
+	classCollection = db[f"{id}"]
+	subject = data.get("subject", "")
+	facultyName = data.get("faculty_name", "")
+	dateTime = data.get("date_time", "")
+
+	data = {
+		"subject":subject,
+		"faculty_name":facultyName,
+		"date_time":dateTime
+	}
+
+	class_ = classCollection.insert_one(data)
+	inserted_id = str(class_.inserted_id)
+
+	return jsonify({
+		"class_id":inserted_id
+	})
 
 @app.route('/login', methods=['POST'])
 def login():

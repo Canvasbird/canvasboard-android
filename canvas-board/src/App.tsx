@@ -5,11 +5,12 @@ import {
   BrowserRouter as Router,
   Switch,
 } from "react-router-dom";
-import { IonApp, IonRouterOutlet } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
+import { IonApp /*IonRouterOutlet*/ } from "@ionic/react";
+// import { IonReactRouter } from "@ionic/react-router";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Schedule from "./pages/Schedule.jsx";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -29,6 +30,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import ClassesScheduled from "./pages/ClassesScheduled";
 
 const App: React.FC = () => (
   <Router>
@@ -38,6 +40,32 @@ const App: React.FC = () => (
           <Route path="/register" component={Register} exact={true} />
           <Route path="/login" component={Login} exact={true} />
           <Route
+            path="/classes"
+            render={() => {
+              if (
+                localStorage.getItem("access_token") !== "undefined" &&
+                localStorage.getItem("access_token")
+              ) {
+                return <ClassesScheduled />;
+              } else {
+                return <Redirect to="/login" />;
+              }
+            }}
+          />
+          <Route
+            path="/camera"
+            render={() => {
+              if (
+                localStorage.getItem("access_token") !== "undefined" &&
+                localStorage.getItem("access_token")
+              ) {
+                return <Home />;
+              } else {
+                return <Redirect to="/login" />;
+              }
+            }}
+          />
+          <Route
             exact
             path="/"
             render={() => {
@@ -45,7 +73,7 @@ const App: React.FC = () => (
                 localStorage.getItem("access_token") !== "undefined" &&
                 localStorage.getItem("access_token")
               ) {
-                return <Home />;
+                return <Schedule />;
               } else {
                 return <Redirect to="/login" />;
               }

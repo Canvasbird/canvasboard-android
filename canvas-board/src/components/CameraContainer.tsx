@@ -1,6 +1,7 @@
 import { IonImg, IonButton } from "@ionic/react";
 import React, { useEffect, useRef } from "react";
 import "./CameraContainer.css";
+import { api } from "../config";
 
 interface ContainerProps {}
 
@@ -10,10 +11,12 @@ const CameraContainer: React.FC<ContainerProps> = () => {
   const imgRef: any = useRef();
 
   useEffect(() => {
-    navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-      camRef.current.srcObject = stream;
-      camRef.current?.play();
-    });
+    navigator.mediaDevices
+      .getUserMedia({ video: { facingMode: { exact: "environment" } } })
+      .then((stream) => {
+        camRef.current.srcObject = stream;
+        camRef.current?.play();
+      });
 
     setInterval(() => {
       const ctx = canvasRef.current.getContext("2d");
@@ -24,12 +27,12 @@ const CameraContainer: React.FC<ContainerProps> = () => {
         canvasRef.current.width,
         canvasRef.current.height
       );
-    }, 120);
+    }, 10);
   }, []);
 
   const processImage = () => {
     let frame = canvasRef.current.toDataURL("image/png");
-    fetch("http://localhost:5000/process", {
+    fetch(`${api}/process`, {
       method: "POST",
       body: frame,
     })
@@ -44,8 +47,8 @@ const CameraContainer: React.FC<ContainerProps> = () => {
   return (
     <div className="container">
       <video hidden ref={camRef}></video>
-      <canvas ref={canvasRef}></canvas>
-      <IonImg ref={imgRef} />
+      <canvas height={500} width={500} ref={canvasRef}></canvas>
+      <IonImg alt="" ref={imgRef} />
       <IonButton onClick={processImage}>Get Output</IonButton>
     </div>
   );

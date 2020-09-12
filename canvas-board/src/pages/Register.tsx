@@ -3,6 +3,7 @@ import "./Register.css";
 import logo from "./logo.png";
 import { IonButton, IonText, IonContent } from "@ionic/react";
 import { Link, useHistory } from "react-router-dom";
+import { api } from "../config";
 
 const Register: React.FC = () => {
   const [username, setUserName] = useState("");
@@ -18,7 +19,7 @@ const Register: React.FC = () => {
       email: email,
     };
 
-    fetch("http://localhost:5000/register", {
+    fetch(`${api}/register`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -35,7 +36,7 @@ const Register: React.FC = () => {
   return (
     <IonContent>
       <div className="register">
-        <img src={logo} />
+        <img alt="" src={logo} />
         <IonText className="welcome__text">Welcome to Web Board</IonText>
         <form className="register__form">
           <IonText>Username</IonText>
