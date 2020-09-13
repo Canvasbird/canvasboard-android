@@ -29,9 +29,10 @@ Canvasboard Android is a hybrid android application which makes use of AI for re
 
 1. Click on `Fork`.
 2. Go to your fork and `clone` the project to your local machine.
-3. Install the requirements `pip install -r requirements.txt`.
-4. Apply the migrations `python manage.py migrate`.
-5. Finally, run the development server `python manage.py runserver`.
+3. Create virtual enviroment by python3 -m virtualenv env
+4. Activate it by source env/bin/activate
+5. Install the requirements `pip install -r requirements.txt`.
+6. To run the server just type in the terminal python app.py
 
 
 **To contribute to the project:**
