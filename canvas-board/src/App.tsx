@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Schedule from "./pages/Schedule.jsx";
+import Main from "./pages/Main";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -67,13 +68,27 @@ const App: React.FC = () => (
           />
           <Route
             exact
-            path="/"
+            path="/schedule"
             render={() => {
               if (
                 localStorage.getItem("access_token") !== "undefined" &&
                 localStorage.getItem("access_token")
               ) {
                 return <Schedule />;
+              } else {
+                return <Redirect to="/login" />;
+              }
+            }}
+          />
+          <Route
+            exact
+            path="/"
+            render={() => {
+              if (
+                localStorage.getItem("access_token") !== "undefined" &&
+                localStorage.getItem("access_token")
+              ) {
+                return <Main />;
               } else {
                 return <Redirect to="/login" />;
               }

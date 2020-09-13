@@ -3,6 +3,8 @@ import "./Schedule.css";
 import DateTimePicker from "react-datetime-picker";
 import { api } from "../config";
 import { useHistory } from "react-router-dom";
+import { IonContent } from "@ionic/react";
+import logo from "./schedule_class.png";
 
 export default function Schedule() {
   const [value_date, onChange] = useState(new Date());
@@ -42,39 +44,42 @@ export default function Schedule() {
   };
 
   return (
-    <div className="schedule">
-      <h3>Schedule class</h3>
-      <div className="schedule__form">
-        <form>
-          <h5>Subject</h5>
-          <input
-            onChange={(e) => setSubject(e.target.value)}
-            type="text"
-            className="schedule__formInput"
-          />
-          <h5>Faculty Name</h5>
-          <input
-            onChange={(e) => setFacultyName(e.target.value)}
-            type="text"
-            className="schedule__formInput"
-          />
-          <h5>Date</h5>
-          <DateTimePicker
-            onChange={onChange}
-            value={value_date}
-            className="schedule__formInput Date"
-          />
-          <div className="schedule__btn">
-            <button
-              type="submit"
-              onClick={submitSchedule}
-              className="schedule__formInputBtn"
-            >
-              Schedule Class
-            </button>
-          </div>
-        </form>
+    <IonContent>
+      <div className="schedule">
+        {/* <h3>Schedule class</h3> */}
+        <img src={logo} alt="" />
+        <div className="schedule__form">
+          <form>
+            <h5>Subject</h5>
+            <input
+              onChange={(e) => setSubject(e.target.value)}
+              type="text"
+              className="schedule__formInput"
+            />
+            <h5>Faculty Name</h5>
+            <input
+              onChange={(e) => setFacultyName(e.target.value)}
+              type="text"
+              className="schedule__formInput"
+            />
+            <h5>Date</h5>
+            <DateTimePicker
+              onChange={onChange}
+              value={value_date}
+              className="schedule__formInput Date"
+            />
+            <div className="schedule__btn">
+              <button
+                type="submit"
+                onClick={submitSchedule}
+                className="schedule__formInputBtn"
+              >
+                Schedule Class
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </IonContent>
   );
 }

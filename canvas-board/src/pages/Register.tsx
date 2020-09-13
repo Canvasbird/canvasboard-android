@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Register.css";
-import logo from "./logo.png";
+import logo from "./background_register.png";
 import { IonButton, IonText, IonContent } from "@ionic/react";
 import { Link, useHistory } from "react-router-dom";
 import { api } from "../config";
@@ -37,7 +37,7 @@ const Register: React.FC = () => {
     <IonContent>
       <div className="register">
         <img alt="" src={logo} />
-        <IonText className="welcome__text">Welcome to Web Board</IonText>
+        {/* <IonText className="welcome__text">Welcome to Web Board</IonText> */}
         <form className="register__form">
           <IonText>Username</IonText>
           <input
@@ -65,7 +65,9 @@ const Register: React.FC = () => {
           </IonButton>
         </form>
         <Link to="/login">
-          <small>already a member ?</small>
+          <h5>
+            Already a member? <u>Login here</u>
+          </h5>
         </Link>
       </div>
     </IonContent>

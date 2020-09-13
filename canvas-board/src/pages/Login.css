@@ -2,16 +2,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: flex-end;
+  /* padding: 20px; */
+  /* background-image: url("./background_login.png"); */
 }
 
 .login > img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  /* height: 100px; */
 }
 
 .login__form {
-  padding-top: 50px;
+  padding: 30px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -28,4 +30,8 @@
 
 .welcome__text {
   padding: 10px;
+}
+
+h5 {
+  color: black;
 }
