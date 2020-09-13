@@ -29,9 +29,10 @@ Canvasboard Android is a hybrid android application which makes use of AI for re
 
 1. Click on `Fork`.
 2. Go to your fork and `clone` the project to your local machine.
-3. Create virtual enviroment by python3 -m virtualenv env
-4. Activate it by source env/bin/activate
-5. Install the requirements `pip install -r requirements.txt`.
+3. Now open the terminal and navigate to server folder with in the project this file has API whic serves the AI Model
+4. Create virtual enviroment by python3 -m virtualenv env
+5. Activate it by source env/bin/activate
+6. Install the requirements `pip install -r requirements.txt`.
 Steps to run the project
 
 -> running the python server (ML API in flask)
@@ -48,7 +49,7 @@ Steps to run the project
 		run the server using
 			-> python app.py
 
-Steps to run the front end
+Steps to run the front end locally
 
 -> open the file canvas-board project in terminal
 1. install the node modules required
@@ -72,6 +73,7 @@ after wards click the connect button after the camera has loaded
 
 5. to make a production build off the app aun the command
 	npm run build
+
 
 **To contribute to the project:**
 
