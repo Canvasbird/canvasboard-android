@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvasboard</title>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <style>
+      img {
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      let peer = new Peer("18jj1a0515000000");
+      console.log(peer);
+      var getUserMedia =
+        navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia;
+      peer.on("call", function (call) {
+        getUserMedia(
+          { video: true, audio: true },
+          function (stream) {
+            call.answer(stream); // Answer the call with an A/V stream.
+            call.on("stream", function (remoteStream) {
+              // Show stream in some video/canvas element.
+              const v = document.querySelector("video");
+              v.srcObject = remoteStream;
+            });
+
+            call.on("close", () => {
+              stream.getTracks().forEach((track) => {
+                track.stop();
+              });
+            });
+          },
+          function (err) {
+            console.log("Failed to get local stream", err);
+          }
+        );
+      });
+
+      setInterval(() => {
+        let canvas = document.querySelector("canvas");
+        let video = document.querySelector("video");
+        let ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0);
+      }, 100);
+
+      function getOutput() {
+        let canvas = document.querySelector("canvas");
+        let image = document.querySelector("img");
+        // let frame = canvas.toDataURL();
+        let frame = canvas.toDataURL("image/png");
+        fetch(`/process`, {
+          method: "POST",
+          body: frame,
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            let video_ = document.querySelector("video");
+            image.width = video_.videoWidth;
+            image.height = video_.videoHeight;
+            image.src = data["image"];
+          });
+      }
+    </script>
+    <video
+      width="500"
+      height="500"
+      autoplay
+      controls
+      id="remote-stream"
+    ></video>
+    <canvas hidden width="500" height="500"></canvas>
+    <img />
+    <button onclick="getOutput()">get output</button>
+  </body>
+</html>

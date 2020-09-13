@@ -56,14 +56,15 @@ const App: React.FC = () => (
           <Route
             path="/camera"
             render={() => {
-              if (
-                localStorage.getItem("access_token") !== "undefined" &&
-                localStorage.getItem("access_token")
-              ) {
-                return <Home />;
-              } else {
-                return <Redirect to="/login" />;
-              }
+              return <Home />;
+              // if (
+              //   localStorage.getItem("access_token") !== "undefined" &&
+              //   localStorage.getItem("access_token")
+              // ) {
+              //   return <Home />;
+              // } else {
+              //   return <Redirect to="/login" />;
+              // }
             }}
           />
           <Route
@@ -84,14 +85,15 @@ const App: React.FC = () => (
             exact
             path="/"
             render={() => {
-              if (
-                localStorage.getItem("access_token") !== "undefined" &&
-                localStorage.getItem("access_token")
-              ) {
-                return <Main />;
-              } else {
-                return <Redirect to="/login" />;
-              }
+              return <Main />;
+              // if (
+              //   localStorage.getItem("access_token") !== "undefined" &&
+              //   localStorage.getItem("access_token")
+              // ) {
+              //   return <Main />;
+              // } else {
+              //   return <Redirect to="/login" />;
+              // }
             }}
           />
         </Switch>

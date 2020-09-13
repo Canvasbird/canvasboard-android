@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from flask_jwt_extended import (
 	JWTManager, jwt_required, create_access_token,
@@ -139,6 +139,10 @@ app.config['SECRET_KEY'] = 'rohit'
 app.config['JWT_SECRET_KEY'] = 'qmxgrstf234rfdxfgtrs!@#'
 jwt = JWTManager(app)
 #socketio = SocketIO(app,cors_allowed_origins="*")
+
+@app.route('/')
+def home_page():
+	return render_template('index.html')
 
 @app.route('/classes', methods=['POST'])
 @jwt_required

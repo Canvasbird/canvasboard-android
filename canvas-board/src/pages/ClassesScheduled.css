@@ -1,0 +1,18 @@
+.classesScheduled {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.classesScheduled__list {
+  width: 100%;
+  overflow: scroll;
+}
+
+h2 {
+  text-transform: capitalize;
+  font-weight: 800;
+  font-size: medium;
+  padding: 10px;
+}

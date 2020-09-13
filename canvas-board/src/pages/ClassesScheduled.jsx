@@ -5,6 +5,7 @@ import ClassItem from "../components/ClassItem";
 import { api } from "../config";
 
 import { useHistory } from "react-router-dom";
+import { IonContent, IonList } from "@ionic/react";
 
 export default function ClassesScheduled() {
   const [classes, setClasses] = useState([]);
@@ -27,6 +28,7 @@ export default function ClassesScheduled() {
         }
         setClasses(data);
       });
+    // eslint-disable-next-line
   }, []);
 
   const renderClasses = () => {
@@ -43,9 +45,14 @@ export default function ClassesScheduled() {
   };
 
   return (
-    <div className="classesScheduled">
-      <h2>Upcomming Live classes</h2>
-      <div className="classesScheduled__list">{renderClasses()}</div>
-    </div>
+    <IonContent>
+      <div className="classesScheduled">
+        <h2>Upcomming Live classes</h2>
+
+        <div className="classesScheduled__list">
+          <IonList>{renderClasses()}</IonList>
+        </div>
+      </div>
+    </IonContent>
   );
 }
