@@ -32,8 +32,46 @@ Canvasboard Android is a hybrid android application which makes use of AI for re
 3. Create virtual enviroment by python3 -m virtualenv env
 4. Activate it by source env/bin/activate
 5. Install the requirements `pip install -r requirements.txt`.
-6. To run the server just type in the terminal python app.py
+Steps to run the project
 
+-> running the python server (ML API in flask)
+	dependencies -> flask, opencv, pillow, flask-cors
+	steps:
+		create virtual enviromet using python3 -m virtualenv env
+		after installation activate the enviroment using
+			-> source env/bin/activate
+		install the above packages using pip
+			->pip install flask
+			->pip install opencv-python
+			->pip install Pillow
+			->pip install flask-cors	
+		run the server using
+			-> python app.py
+
+Steps to run the front end
+
+-> open the file canvas-board project in terminal
+1. install the node modules required
+	-- npm install
+2. to run the app use the following command
+	-- ionic serve
+	-- the project opens in browser at localhost:9000
+3. now open the server folder in the front end project (this folder contains js client to receive live stream from mobile and also sends the stream to flask server via api call)
+	
+	-- in this folder just open another terminal and type
+		python -m http.server (if on windows) 
+		sh ./run.sh (if on linux)
+		
+		this will serve the client
+
+4. now every thing is ready just open the application in mobile give access to camera
+after wards click the connect button after the camera has loaded
+
+	now we can see the stream from phone is been displayed on client web page
+	and also we can observe the stream send to send to server for preprocessing and received 	back	
+
+5. to make a production build off the app aun the command
+	npm run build
 
 **To contribute to the project:**
 
